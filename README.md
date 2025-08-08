@@ -1,0 +1,1 @@
+# plugins-add-coupon-by-link-for-woocommerce
