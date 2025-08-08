@@ -1,0 +1,46 @@
+/**
+ * All of the CSS for your public-facing functionality should be
+ * included in this file.
+ */
+
+ body.pi-acblw-processing button.wc-block-components-checkout-place-order-button{
+    pointer-events: none;
+    opacity:0.5;
+}
+
+body.pi-acblw-processing .wc-block-checkout__payment-method .wc-block-components-checkout-step__container{
+    pointer-events: none;
+    opacity:0.5;
+}
+
+body.pi-acblw-processing .wp-block-woocommerce-checkout-order-summary-block{
+    pointer-events: none;
+    opacity:0.4;
+}
+
+body .pisol-fees-container{
+    padding:10px !important;
+}
+
+body.pi-acblw-processing .pisol-fees-container{
+    position:relative;
+    pointer-events: none;
+}
+
+body.pi-acblw-processing .pisol-fees-container:after{
+    animation: spinner__animation 1s linear infinite;
+    backface-visibility: hidden;
+    border: .2em solid;
+    border-left: .2em solid transparent;
+    border-radius: 50%;
+    box-sizing: border-box;
+    content: " ";
+    height: 1em;
+    left: 50%;
+    margin: -.5em 0 0 -.5em;
+    position: absolute;
+    top: 50%;
+    transform: translateZ(0) scale(.5);
+    transform-origin: 50% 50%;
+    width: 1em
+}

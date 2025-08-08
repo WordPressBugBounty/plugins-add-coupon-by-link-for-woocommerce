@@ -1,0 +1,249 @@
+/**
+ * All of the CSS for your admin-specific functionality should be
+ * included in this file.
+ */
+
+ .pisol-container{
+   padding:10px;
+ }
+
+ .pisol-label{
+    background:#ccc;
+    color:#000;
+    padding:10px;
+    margin-bottom:20px;
+    margin-top:20px;
+ }
+
+ .pisol-mt{
+   margin-top:10px;
+ }
+
+ .pisol-container .select2{
+   margin-bottom:20px;
+   float:none !important;
+ }
+
+.select2-container {
+  width: 70% !important; /* Adjust width as needed */
+}
+
+li.pisol_aclw_scheduler_tab a::before{
+  content: "\f145" !important;
+}
+
+li.pisol_acblw_coupon_message_tab a::before{
+  content: "\f125" !important;
+}
+
+li.shipping_discount_tab a::before{
+  content: "\f14a" !important;
+}
+
+li.available_payment_methods_tab a::before{
+  content: "\f510" !important;
+}
+
+li.add_products_tab a::before{
+  content: "\f312" !important;
+}
+
+.pi-display-flex{
+  display:flex;
+  gap:10px;
+  align-items: center;
+}
+
+.p-1{
+  padding:10px;
+}
+
+.p-2{
+  padding:20px;
+}
+
+.p-4{
+  padding:40px;
+}
+
+.mt-2{
+  margin-top:20px;
+}
+
+.pi-days-name{
+  min-width:100px;
+}
+
+.free-version {
+	position: relative;
+	background: #ffe;
+  padding:10px;
+}
+
+.free-version:hover:after {
+	content: "Available in PRO";
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	position: absolute;
+	color: #FFF;
+	font-weight: bold;
+	font-size: 24px;
+	width: 100%;
+	height: 100%;
+	left: 0;
+	top: 0;
+	background: rgba(255, 0, 0, 0.4);
+}
+
+/** promotion banner */
+.pisol-new-promotion-box-promotion-container{
+	padding: 1.5rem !important;
+  padding-left: 0px !important;
+  padding-right: 0px !important;
+	position: relative;
+}
+
+.pisol-new-promotion-box-promotion{
+	/* background-color: rgb(194 98 151 / 1) !important; */
+	background-color: rgb(166 30 105/ 1 ) !important;
+	border-radius: .5rem !important;
+	padding: 1.2rem !important;
+	box-shadow: 0px 4px 10px rgba(166, 30, 105, 0.3);
+}
+
+.pisol-new-promotion-box-promotion h4{
+	color: rgb(255 255 255 / 1) !important;
+	line-height: 1.25;
+	font-size: 1rem !important;
+	font-weight: 800 !important;
+	margin-top:30px;
+	margin-bottom:20px;
+	text-align: center;
+}
+
+.pisol-new-promotion-box-promotion ul{
+    margin-bottom:20px !important;
+}
+
+.pisol-new-promotion-box-promotion ul li{
+	color: rgb(255 255 255 / 1) !important;
+	margin-bottom: 10px;
+}
+
+.pisol-new-promotion-box-promotion .pisol-new-promotion-box-buy{
+	border-radius:0.375rem;
+	background-color: rgb(252 211 77 / 1) !important;
+	border-color: #0000;
+	color: rgb(120 53 15 / 1);
+	display:flex;
+	justify-content: center;
+	padding: .5rem .3rem;
+	text-align: center;
+	gap:0.5rem;
+	font-size: 12px;
+  font-weight: 500;
+}
+
+.banner-price{
+  text-align:center;
+  font-size: 14px;
+  font-weight: 800;
+  color:#fff;
+  margin-bottom:15px;
+}
+
+.pisol-new-promotion-box-promotion .pisol-new-promotion-box-buy:hover{
+	background-color: rgb(251 191 36 /  1) !important;
+	text-decoration:none !important;
+}
+
+.pisol-new-promotion-box-promotion .pisol-new-promotion-box-buy svg{
+	width:1rem;
+}
+
+.pisol-new-promotion-box-msg{
+	font-weight:300;
+	color:#fff;
+	display:block;
+	text-align:center;
+}
+
+.pisol-new-promotion-box-icon-container{
+	width:70px;
+	height:70px;
+	border-radius:35px;
+	box-shadow: 0px 4px 10px rgba(166, 30, 105, 0.3);
+	background:#eee;
+	display:flex;
+	justify-content: center;
+	align-items: center;
+	position:absolute;
+	left:calc(50% - 35px);
+	top:-10px;
+}
+
+.pisol-new-promotion-box-promotion-footer{
+    color:#fff !important;
+    margin-top:10px;
+    display:block;
+}
+
+.pisol-new-promotion-box-review-stars{
+    display:flex;
+    gap:5px;
+    margin-top:10px;
+    font-size:20px;
+    color:rgb(251, 191, 36);
+}
+
+.pisol-new-promotion-box-review-wp-logo{
+    height:26px;
+    width:auto;
+}
+
+.pisol-new-promotion-box-read-reviews{
+    color:#fff !important;
+    font-size:10px;
+    align-self: baseline;
+}
+
+#pi_acblw_custom_coupon_meta_box{
+   border:0px !important;
+    background:transparent !important;
+
+    & .postbox-header{
+      display:none;
+    }
+
+    & .inside{
+      border:0px !important;
+      background:transparent !important;
+      padding:0px !important;
+    }
+}
+
+#pi-aclw-trusted-websites{
+  color:#fff;
+  background-color:#ee6443 !important;
+  padding: 10px;
+  border-radius: 5px;
+  text-align:center;
+}
+/* end banner */
+
+.pi-aclw-add-products-row{
+  display:grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr 1fr;
+  gap:10px;
+  margin:15px 0;
+}
+
+.pi-aclw-add-products-row input, .pi-aclw-add-products-row select {
+  width:100% !important;
+  float:none !important;
+}
+
+.pi-aclw-add-products-row .select2-container{
+  width: 100% !important; /* Adjust width as needed */
+}
