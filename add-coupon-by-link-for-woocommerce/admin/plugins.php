@@ -65,6 +65,11 @@ class pisol_acblw_other_plugins{
         <img class="pi-icon" src="<?php echo esc_url( plugin_dir_url( __FILE__ ) ); ?>img/suggestion.svg"> Send suggestion
         </a>
         </li>
+        <li class="nav-item mb-0">
+        <a class="nav-link text-light " href="https://www.piwebsolution.com/user-documentation-add-coupon-by-url/" target="_blank">
+        <span class="dashicons dashicons-book"></span> User Documentation
+        </a>
+        </li>
         <?php
     }
 

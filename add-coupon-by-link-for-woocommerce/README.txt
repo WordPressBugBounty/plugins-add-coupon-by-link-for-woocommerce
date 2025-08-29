@@ -5,7 +5,7 @@ Tags: coupons, url coupons, discount rules, qrcode, woocommerce coupon
 Requires at least: 3.0.1
 Tested up to: 6.8
 License: GPLv2 or later
-Stable tag: 1.2.13
+Stable tag: 1.2.14
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 Adding coupons by url coupon, restrict coupon by product attribute, a woocommerce coupon plugin
@@ -378,6 +378,9 @@ This is available in pro version, multiple products can be linked to a single co
 26. Add product by coupon, so when a user applies a coupon it will automatically add a product to the cart, you can set the product to be free or discounted or at its original price
 
 == Changelog ==
+
+= 1.2.14 =
+* Tested for WC 10.1.0
 
 = 1.2.13 =
 * Deactivate free version when pro version is activated
