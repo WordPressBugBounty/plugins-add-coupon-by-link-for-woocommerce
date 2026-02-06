@@ -124,11 +124,11 @@ class Scheduler{
         ?>
         <div class="pi-display-flex mt-2 pisol-date-range">
             <div class="pi-display-flex">
-                <span class="mx-2"><?php _e('from', 'add-coupon-by-link-woocommerce'); ?></span>
-                <input type="text" class="pi-date-time" name="pisol_aclw_date_based_scheduling[<?php echo $count; ?>][from]" value="<?php echo $saved_value['from'] ?? ''; ?>">
-                <span class="mx-2"><?php _e('to', 'add-coupon-by-link-woocommerce'); ?></span>
-                <input type="text" class="pi-date-time" name="pisol_aclw_date_based_scheduling[<?php echo $count; ?>][to]" value="<?php echo $saved_value['to'] ?? ''; ?>">
-                <button class="button pisol-date-schedule-remove" type="button"><?php _e('Remove', 'add-coupon-by-link-woocommerce'); ?></button>
+                <span class="mx-2"><?php esc_html_e('from', 'add-coupon-by-link-woocommerce'); ?></span>
+                <input type="text" class="pi-date-time" name="pisol_aclw_date_based_scheduling[<?php echo esc_attr($count); ?>][from]" value="<?php echo esc_attr($saved_value['from'] ?? ''); ?>">
+                <span class="mx-2"><?php esc_html_e('to', 'add-coupon-by-link-woocommerce'); ?></span>
+                <input type="text" class="pi-date-time" name="pisol_aclw_date_based_scheduling[<?php echo esc_attr($count); ?>][to]" value="<?php echo esc_attr($saved_value['to'] ?? ''); ?>">
+                <button class="button pisol-date-schedule-remove" type="button"><?php esc_html_e('Remove', 'add-coupon-by-link-woocommerce'); ?></button>
             </div>
         </div>
         <?php

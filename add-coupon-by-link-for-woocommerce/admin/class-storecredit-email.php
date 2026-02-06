@@ -49,7 +49,7 @@ class WC_Email_ACBLW_Store_Credit extends \WC_Email {
         }
 
         $this->placeholders['{coupon_code}'] = $coupon_code;
-        $this->placeholders['{amt}'] = strip_tags(wc_price(StoreCredit::get_original_amount($coupon)));
+        $this->placeholders['{amt}'] = wp_strip_all_tags(wc_price(StoreCredit::get_original_amount($coupon)));
 
         $this->coupon_code = $coupon_code;
 
@@ -61,7 +61,7 @@ class WC_Email_ACBLW_Store_Credit extends \WC_Email {
     }
 
     public function get_content_html() {
-        $amt = strip_tags( wc_price($this->amt) );
+        $amt = wp_strip_all_tags( wc_price($this->amt) );
         return wc_get_template_html( $this->template_html, array(
             'coupon_code' => $this->coupon_code,
             'email_heading' => $this->get_heading(),
@@ -72,7 +72,7 @@ class WC_Email_ACBLW_Store_Credit extends \WC_Email {
     }
 
     public function get_content_plain() {
-        $amt = strip_tags( wc_price($this->amt) );
+        $amt = wp_strip_all_tags( wc_price($this->amt) );
         return wc_get_template_html( $this->template_plain, array(
             'coupon_code' => $this->coupon_code,
             'email_heading' => $this->get_heading(),

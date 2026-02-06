@@ -42,6 +42,7 @@ class AutoApplyCoupon{
                     $applied = WC()->cart->apply_coupon( $coupon_code );
 
                     if ( $applied ) {
+                        // translators: %s: coupon code
                         wc_add_notice( sprintf( __( 'Coupon "%s" automatically applied.', 'add-coupon-by-link-woocommerce' ), $coupon_code ) );
                         WC()->cart->calculate_totals(); // Recalculate totals
                     }else{

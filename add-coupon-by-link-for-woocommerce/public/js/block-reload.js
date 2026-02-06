@@ -21,7 +21,7 @@ const pisol_aclw_metadata_checkout = {
 };
 
 const ReadOnlyCartCheckoutListener = (prop) => {
-  if(prop.extensions.pisol_aclw.reload) {
+  if(prop?.extensions?.pisol_aclw?.reload) {
     window.location.reload();
   }
   return null;

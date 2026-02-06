@@ -148,7 +148,7 @@ class ShippingDiscountManager{
         $coupon_code_id = $coupon->get_id();
         $discount_method = get_post_meta($coupon_code_id, 'pi_acblw_shipping_discount_method', true);
         if($amount == 0 && !empty($discount_method)){
-            $coupon_html          = ' <a href="' . esc_url( add_query_arg( 'remove_coupon', rawurlencode( $coupon->get_code() ), Constants::is_defined( 'WOOCOMMERCE_CHECKOUT' ) ? wc_get_checkout_url() : wc_get_cart_url() ) ) . '" class="woocommerce-remove-coupon" data-coupon="' . esc_attr( $coupon->get_code() ) . '">' . __( '[Remove]', 'woocommerce' ) . '</a>';
+            $coupon_html          = ' <a href="' . esc_url( add_query_arg( 'remove_coupon', rawurlencode( $coupon->get_code() ), Constants::is_defined( 'WOOCOMMERCE_CHECKOUT' ) ? wc_get_checkout_url() : wc_get_cart_url() ) ) . '" class="woocommerce-remove-coupon" data-coupon="' . esc_attr( $coupon->get_code() ) . '">' . __( '[Remove]', 'add-coupon-by-link-woocommerce' ) . '</a>';
             $html = 'Shipping discount coupon '. $coupon_html;
         }
 

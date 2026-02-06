@@ -22,6 +22,8 @@ class Condition_Bootstrap{
         new Billing_Country();
         new Product_Category();
         new Cart_Quantity();
+        new Virtual_Product_Quantity();
+        new Non_Virtual_Product_Quantity();
         new Cart_Subtotal();
         new Previous_Orders_By_Category();
         new Login_Status();

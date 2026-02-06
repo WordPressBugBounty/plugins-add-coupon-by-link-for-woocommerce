@@ -40,17 +40,7 @@ class pisol_acblw_other_plugins{
 
         add_action('install_plugins_'.$this->this_tab, [$this, 'plugin_list']);
 
-        $this->register_settings();
         
-    }
-
-    
-    function register_settings(){   
-
-        foreach($this->settings as $setting){
-            register_setting( $this->setting_key, $setting['field']);
-        }
-    
     }
 
     function tab(){

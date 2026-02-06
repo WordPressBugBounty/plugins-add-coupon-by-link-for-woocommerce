@@ -2,7 +2,7 @@
 namespace PISOL\ACLW\CONDITION;
 
 /**
- * Cart Subtotal Condition
+ * Total Virtual Product Quantity in Cart Condition
  *
  * @package Add_Coupon_By_Link_For_WooCommerce_Pro
  */
@@ -10,9 +10,9 @@ namespace PISOL\ACLW\CONDITION;
 defined('ABSPATH') || exit;
 
 /**
- * Class for cart subtotal condition
+ * Class for total virtual product quantity condition
  */
-class Cart_Subtotal extends Base_Condition {
+class Virtual_Product_Quantity extends Base_Condition {
     
     /**
      * Constructor
@@ -27,7 +27,7 @@ class Cart_Subtotal extends Base_Condition {
      * @return string
      */
     public function get_id() {
-        return 'cart_subtotal';
+        return 'virtual_product_quantity';
     }
     
     /**
@@ -36,13 +36,13 @@ class Cart_Subtotal extends Base_Condition {
      * @return string
      */
     public function get_name() {
-        return __('Cart subtotal', 'add-coupon-by-link-woocommerce');
+        return __('Virtual product quantity', 'add-coupon-by-link-woocommerce');
     }
-    
+
     public function get_group() {
         return 'cart';
     }
-
+    
     /**
      * Get available operators
      *
@@ -71,17 +71,15 @@ class Cart_Subtotal extends Base_Condition {
     public function get_value_field($html, $condition_id, $unused_param, $current_value) {
         ob_start();
         ?>
-        <div class="pisol-aclw-price-input">
+        <div class="pisol-aclw-quantity-input">
             <input 
                 type="number" 
                 name="pisol_aclw_conditions[<?php echo esc_attr($condition_id); ?>][value]"
                 value="<?php echo esc_attr($current_value); ?>"
-                min="0.01"
-                step="0.01"
+                min="1"
+                step="1"
                 class="regular-text"
-                placeholder="<?php 
-                // translators: %s: WooCommerce currency symbol.
-                echo esc_attr(sprintf(__('Amount (%s)', 'add-coupon-by-link-woocommerce'), get_woocommerce_currency_symbol())); ?>"
+                placeholder="<?php esc_attr_e('Quantity', 'add-coupon-by-link-woocommerce'); ?>"
             >
         </div>
         <?php
@@ -102,22 +100,29 @@ class Cart_Subtotal extends Base_Condition {
             return false;
         }
         
-        $target_subtotal = floatval($value);
-        $cart_subtotal = floatval($cart->get_subtotal());
+        $target_quantity = intval($value);
+        $total_quantity = 0;
+        
+        // Count all virtual items in the cart
+        foreach ($cart->get_cart() as $cart_item) {
+            if(isset($cart_item['data']) && $cart_item['data']->is_virtual()){
+                $total_quantity += $cart_item['quantity'];
+            }
+        }
         
         switch ($operator) {
             case 'eq':
-                return $cart_subtotal == $target_subtotal;
+                return $total_quantity == $target_quantity;
             case 'neq':
-                return $cart_subtotal != $target_subtotal;
+                return $total_quantity != $target_quantity;
             case 'gt':
-                return $cart_subtotal > $target_subtotal;
+                return $total_quantity > $target_quantity;
             case 'gte':
-                return $cart_subtotal >= $target_subtotal;
+                return $total_quantity >= $target_quantity;
             case 'lt':
-                return $cart_subtotal < $target_subtotal;
+                return $total_quantity < $target_quantity;
             case 'lte':
-                return $cart_subtotal <= $target_subtotal;
+                return $total_quantity <= $target_quantity;
             default:
                 return false;
         }

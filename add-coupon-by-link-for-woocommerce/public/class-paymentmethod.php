@@ -57,7 +57,7 @@ class PaymentMethod{
 
         if ( empty( $post_id ) ) return;
 
-        $payment_methods = isset($_POST['pi_acblw_payment_methods']) && is_array($_POST['pi_acblw_payment_methods']) ? array_map('sanitize_text_field', $_POST['pi_acblw_payment_methods']) : array();
+        $payment_methods = isset($_POST['pi_acblw_payment_methods']) && is_array($_POST['pi_acblw_payment_methods']) ? array_map('sanitize_text_field', wp_unslash($_POST['pi_acblw_payment_methods'])) : array();
 
         update_post_meta($post_id, 'pi_acblw_payment_methods', $payment_methods);
     }

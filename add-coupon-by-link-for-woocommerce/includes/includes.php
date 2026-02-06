@@ -19,6 +19,7 @@ require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-promotion.php
 require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-auto-apply-coupon-metabox.php';
 require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-analytics.php';
 require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-add-product-options.php';
+require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-coupon-taxonomy.php';
 
 
 require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/pisol.class.form.php';

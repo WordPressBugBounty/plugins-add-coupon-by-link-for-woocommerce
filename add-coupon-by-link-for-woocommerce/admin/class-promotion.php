@@ -54,7 +54,7 @@ class Promotion{
                     <li class="py-2"><span>✓ Auto apply coupon, when condition matches</li>
                 </ul>
                 <div class="banner-price text-center text-light">
-                    💰 <?php echo PISOL_ACBLW_PRICE; ?> Unlock all 30+ features!
+                    💰 <?php echo wp_kses_post(PISOL_ACBLW_PRICE); ?> <small>Billed yearly</small>
                 </div>
                 <a href="<?php echo esc_url(PISOL_ACBLW_BUY_URL); ?>" target="_blank" class="pisol-new-promotion-box-buy my-4">🔓 Unlock Pro Now – Limited Time Price!</a>
                 

@@ -218,7 +218,7 @@ class Previous_Orders_By_Category extends Base_Condition {
         $user_id = get_current_user_id();
         if (!$user_id) {
             // Guest user, try to get customer from session
-            $customer_email = WC()->session ? WC()->session->get('billing_email') : '';
+            $customer_email = Common::get_guest_email();
             if (empty($customer_email)) {
                 return false; // No way to identify customer
             }

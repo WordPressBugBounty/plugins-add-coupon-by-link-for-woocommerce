@@ -89,7 +89,7 @@ class CouponDayRestriction {
             // Create a comma-separated list of valid days
             $allowed_days_list = implode( ', ', $allowed_days );
     
-            // Display an error message listing the valid days
+            /* translators: %s: human-readable, comma-separated list of days on which the coupon is valid (e.g., Monday, Tuesday). */
             wc_add_notice( sprintf( __( 'This coupon is only valid on %s.', 'add-coupon-by-link-woocommerce' ), $allowed_days_list ), 'error' );
             return false;
         }

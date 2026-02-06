@@ -162,9 +162,9 @@ class StoreCredit {
 
     static function getTotalDiscountGiven( $orders_id, $coupon_id, $excluded_order_id = null){
 
-        if(empty($orders_id)) return 0;
+        if(empty($orders_id)) return apply_filters('acblw_total_discount_given',0, $orders_id, $coupon_id, $excluded_order_id);
 
-        if(!is_array($orders_id)) return 0;
+        if(!is_array($orders_id)) return apply_filters('acblw_total_discount_given', 0, $orders_id, $coupon_id, $excluded_order_id);
 
         if(in_array($excluded_order_id, $orders_id)){
             $key = array_search($excluded_order_id, $orders_id);
@@ -178,7 +178,7 @@ class StoreCredit {
             if(! $order ) continue;
 
             $status = $order->get_status();
-            if(in_array($status, ['trash', 'refunded', 'cancelled', 'failed'])) continue;
+            if(in_array($status, ['trash', 'refunded', 'cancelled', 'failed', 'checkout-draft'])) continue;
 
             $coupons = $order->get_items( 'coupon' );
 
@@ -203,7 +203,7 @@ class StoreCredit {
                 }
             endforeach;
         }
-        return $total_discount;
+        return apply_filters('acblw_total_discount_given', $total_discount, $orders_id, $coupon_id, $excluded_order_id);
     }
 
     function storeCreditCount( $order_id ){
@@ -212,6 +212,8 @@ class StoreCredit {
         if ( ! $order ) {
             return;
         }
+
+        if( $order->get_status() == 'checkout-draft' ) return;
 
         $coupons = $order->get_coupon_codes();
 
@@ -278,6 +280,7 @@ class StoreCredit {
             $remaining_balance = $amount_that_can_be_used - $discount_given;
             
             if ($amount_that_can_be_used > 0) {
+                // translators: %s — the remaining store credit value, already formatted by wc_price() (includes currency symbol and locale-specific formatting).
                 $balance_message = sprintf(__('Store credit left after this: %s', 'add-coupon-by-link-woocommerce'), wc_price($remaining_balance));
                 $coupon_html .= '<br><span class="store-credit-balance-message">' . $balance_message . '</span>';
             }
@@ -286,16 +289,15 @@ class StoreCredit {
     }
 
     function admin_scripts(){
-        global $wp_query, $post, $theorder;
         $screen    = get_current_screen();
         $screen_id = $screen ? $screen->id : '';
         if ( in_array( $screen_id, array( 'shop_order', 'woocommerce_page_wc-orders' ), true ) ) {
                 $order_id = 0;
-				if ( $theorder instanceof \WC_Order ) {
-					$order_id = $theorder->get_id();
-				} elseif ( is_a( $post, 'WP_Post' ) && 'shop_order' === get_post_type( $post ) ) {
-					$order_id = $post->ID;
-				}
+				if ( isset( $_GET['id'] ) ) {
+                    $order_id = absint( wp_unslash($_GET['id']) );
+                } elseif ( isset( $_GET['post'] ) ) {
+                    $order_id = absint( wp_unslash($_GET['post']) );
+                }
 				$order = wc_get_order( $order_id );
 				if ( $order ) {
                     wp_enqueue_script( 'acblw-refund-as-store-credit', plugin_dir_url( __FILE__ ) . 'js/admin-order.js', array( 'jquery', 'wc-admin-order-meta-boxes' ), '1.0.0', true );
@@ -337,11 +339,11 @@ class StoreCredit {
 				$max_refund = wc_format_decimal( $order->get_total() - $order->get_total_refunded(), wc_get_price_decimals() );
 
 				if ( ( ! $refund_amount && ( wc_format_decimal( 0, wc_get_price_decimals() ) !== $refund_amount ) ) || $max_refund < $refund_amount || 0 > $refund_amount ) {
-					throw new \Exception( __( 'Invalid refund amount', 'woocommerce' ) );
+					throw new \Exception( __( 'Invalid refund amount', 'add-coupon-by-link-woocommerce' ) );
 				}
 
 				if ( wc_format_decimal( $order->get_total_refunded(), wc_get_price_decimals() ) !== $refunded_amount ) {
-					throw new \Exception( __( 'Error processing refund. Please try again.', 'woocommerce' ) );
+					throw new \Exception( __( 'Error processing refund. Please try again.', 'add-coupon-by-link-woocommerce' ) );
 				}
 
 				// Prepare line items which we are refunding.
@@ -380,11 +382,20 @@ class StoreCredit {
 					$coupon_code = 'refund-' . $order->get_id().'-'.wp_generate_password(6, false);
                     $emails = array();
                     $emails[] = $order->get_billing_email();
+                    // translators: %s — Order id.
                     $desc = sprintf(__('Store credit coupon given as a refund for order %s', 'add-coupon-by-link-woocommerce'), $order->get_id());
-					self::issueCreditCoupon($refund_amount, $coupon_code, $emails, $desc);
-                    $order->add_order_note(sprintf(__('Store credit coupon %s of %s amount was for email id %s as a refund', 'add-coupon-by-link-woocommerce'), $coupon_code, wc_price($refund_amount), implode(', ', $emails)));
-                    $email_desc = sprintf(__('This coupon was given to you as a refund for the order #%s', 'add-coupon-by-link-woocommerce'), $order->get_id());
-                    do_action( 'woocommerce_store_credit_assigned', $coupon_code, $email_desc );
+					$id = self::issueCreditCoupon($refund_amount, $coupon_code, $emails, $desc);
+                    if(!empty($id)){
+                        // translators: %1$s — coupon, %2$s — amount, %3$s — email.
+                        $order->add_order_note(sprintf(__('Store credit coupon %1$s of %2$s amount was for email id %3$s as a refund', 'add-coupon-by-link-woocommerce'), $coupon_code, wc_price($refund_amount), implode(', ', $emails)));
+                        // translators: %s — Order id.
+                        $email_desc = sprintf(__('This coupon was given to you as a refund for the order #%s', 'add-coupon-by-link-woocommerce'), $order->get_id());
+                        do_action( 'woocommerce_store_credit_assigned', $coupon_code, $email_desc );
+                        do_action( 'acblw_store_credit_refund_completed', $order, $refund_amount, $coupon_code, $id );
+                    }else{
+                        // translators: %s — refund amount.
+                        $order->add_order_note(sprintf(__('Store credit coupon issuance failed for refund amount %s', 'add-coupon-by-link-woocommerce'), wc_price($refund_amount)));
+                    }
 				}
 
 				if ( is_wp_error( $refund ) ) {
@@ -402,14 +413,13 @@ class StoreCredit {
     }
 
     static function issueCreditCoupon($refund_amount, $coupon_code, $emails, $desc){
-        $coupon = new \WC_Coupon();
-        $coupon->set_code($coupon_code);
+        $coupon = new \WC_Coupon($coupon_code);
         $coupon->set_discount_type('pisol_acblw_store_credit');
         $coupon->set_amount($refund_amount);
         $coupon->set_description($desc);
         //get billing email and set as the email for the coupon
         $coupon->set_email_restrictions($emails);
-        $coupon->save();
+        return $coupon->save();
     }
 
     function register_store_credit_email( $email_classes ) {
@@ -419,16 +429,17 @@ class StoreCredit {
     }
 
     public function init_form_fields() {
-        $placeholder_text  = sprintf( __( 'Available placeholders: %s', 'woocommerce' ), '<code>' . implode( '</code>, <code>', array_keys( $this->placeholders ) ) . '</code>' );
+        // translators: %s: available placeholders.
+        $placeholder_text  = sprintf( __( 'Available placeholders: %s', 'add-coupon-by-link-woocommerce' ), '<code>' . implode( '</code>, <code>', array_keys( $this->placeholders ) ) . '</code>' );
         $this->form_fields = array(
             'enabled'            => array(
-                'title'   => __( 'Enable/Disable', 'woocommerce' ),
+                'title'   => __( 'Enable/Disable', 'add-coupon-by-link-woocommerce' ),
                 'type'    => 'checkbox',
-                'label'   => __( 'Enable this email notification', 'woocommerce' ),
+                'label'   => __( 'Enable this email notification', 'add-coupon-by-link-woocommerce' ),
                 'default' => 'yes',
             ),
             'subject'            => array(
-                'title'       => __( 'Subject', 'woocommerce' ),
+                'title'       => __( 'Subject', 'add-coupon-by-link-woocommerce' ),
                 'type'        => 'text',
                 'desc_tip'    => true,
                 'description' => $placeholder_text,
@@ -436,7 +447,7 @@ class StoreCredit {
                 'default'     => '',
             ),
             'heading'            => array(
-                'title'       => __( 'Email heading', 'woocommerce' ),
+                'title'       => __( 'Email heading', 'add-coupon-by-link-woocommerce' ),
                 'type'        => 'text',
                 'desc_tip'    => true,
                 'description' => $placeholder_text,
@@ -444,18 +455,18 @@ class StoreCredit {
                 'default'     => '',
             ),
             'additional_content' => array(
-                'title'       => __( 'Additional content', 'woocommerce' ),
-                'description' => __( 'Text to appear below the main email content.', 'woocommerce' ) . ' ' . $placeholder_text,
+                'title'       => __( 'Additional content', 'add-coupon-by-link-woocommerce' ),
+                'description' => __( 'Text to appear below the main email content.', 'add-coupon-by-link-woocommerce' ) . ' ' . $placeholder_text,
                 'css'         => 'width:400px; height: 75px;',
-                'placeholder' => __( 'N/A', 'woocommerce' ),
+                'placeholder' => __( 'N/A', 'add-coupon-by-link-woocommerce' ),
                 'type'        => 'textarea',
                 'default'     => $this->get_default_additional_content(),
                 'desc_tip'    => true,
             ),
             'email_type'         => array(
-                'title'       => __( 'Email type', 'woocommerce' ),
+                'title'       => __( 'Email type', 'add-coupon-by-link-woocommerce' ),
                 'type'        => 'select',
-                'description' => __( 'Choose which format of email to send.', 'woocommerce' ),
+                'description' => __( 'Choose which format of email to send.', 'add-coupon-by-link-woocommerce' ),
                 'default'     => 'html',
                 'class'       => 'email_type wc-enhanced-select',
                 'options'     => $this->get_email_type_options(),

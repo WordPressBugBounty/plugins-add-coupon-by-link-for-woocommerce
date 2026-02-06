@@ -54,7 +54,7 @@ class EmailRestriction{
 
         $coupon = new \WC_Coupon( $coupon );
 
-        $excluded_emails = ( isset( $_POST['pi_acblw_excluded_customer_email'] ) ) ? wc_clean( wp_unslash( $_POST['pi_acblw_excluded_customer_email'] ) ) : '';
+    $excluded_emails = isset( $_POST['pi_acblw_excluded_customer_email'] ) ? sanitize_textarea_field( wp_unslash( $_POST['pi_acblw_excluded_customer_email'] ) ) : '';
 
         $excluded_emails = explode( ',', $excluded_emails );
         $excluded_emails = array_map( 'trim', $excluded_emails );
@@ -86,14 +86,14 @@ class EmailRestriction{
         $current_user              = ( is_user_logged_in() ) ? wp_get_current_user() : null;
 		$user_email                = ( ! is_null( $current_user ) && ! empty( $current_user->user_email ) ) ? $current_user->user_email : '';
 
-        $billing_email = isset( $_REQUEST['billing_email'] ) ? $_REQUEST['billing_email'] : '';
+        $billing_email = isset( $_REQUEST['billing_email'] ) ? sanitize_email( wp_unslash( $_REQUEST['billing_email'] ) ) : '';
 
         $posted_data = array();
         $post_data = isset( $_POST['post_data'] ) && ! empty( $_POST['post_data'] ) ?  ( $_POST['post_data'] )  : ''; // phpcs:ignore
 		wp_parse_str( $post_data, $posted_data );
 
         if(empty($billing_email) && isset($posted_data['billing_email'])){
-            $billing_email = $posted_data['billing_email'];
+            $billing_email = sanitize_email( $posted_data['billing_email'] );
         }
 
         $wc_customer               = WC()->customer;

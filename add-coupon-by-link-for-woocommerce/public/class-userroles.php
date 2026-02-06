@@ -138,15 +138,15 @@ class UserRoles{
 
         if ( empty( $post_id ) ) return;
 
-        $user_roles = isset($_POST['pi_acblw_user_roles']) && is_array($_POST['pi_acblw_user_roles']) ? array_map('sanitize_text_field', $_POST['pi_acblw_user_roles']) : array();
+        $user_roles = isset($_POST['pi_acblw_user_roles']) && is_array($_POST['pi_acblw_user_roles']) ? array_map('sanitize_text_field', wp_unslash($_POST['pi_acblw_user_roles'])) : array();
 
         update_post_meta($post_id, 'pi_acblw_user_roles', $user_roles);
 
-        $exc_user_roles = isset($_POST['pi_acblw_exc_user_roles']) && is_array($_POST['pi_acblw_exc_user_roles']) ? array_map('sanitize_text_field', $_POST['pi_acblw_exc_user_roles']) : array();
+        $exc_user_roles = isset($_POST['pi_acblw_exc_user_roles']) && is_array($_POST['pi_acblw_exc_user_roles']) ? array_map('sanitize_text_field', wp_unslash($_POST['pi_acblw_exc_user_roles'])) : array();
 
         update_post_meta($post_id, 'pi_acblw_exc_user_roles', $exc_user_roles);
 
-        $countries = isset($_POST['pi_acblw_country']) && is_array($_POST['pi_acblw_country']) ? array_map('sanitize_text_field', $_POST['pi_acblw_country']) : array();
+        $countries = isset($_POST['pi_acblw_country']) && is_array($_POST['pi_acblw_country']) ? array_map('sanitize_text_field', wp_unslash($_POST['pi_acblw_country'])) : array();
 
         update_post_meta($post_id, 'pi_acblw_country', $countries);
     }
