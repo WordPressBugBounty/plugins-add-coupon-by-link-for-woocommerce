@@ -9,21 +9,21 @@
  * that starts the plugin.
  *
  * @link              piwebsolution.com
- * @since             1.2.30
+ * @since             1.2.31
  * @package           Add_Coupon_By_Link_Woocommerce
  *
  * @wordpress-plugin
  * Plugin Name:       Advance coupon for WooCommerce
  * Plugin URI:        https://www.piwebsolution.com
  * Description:       Adding coupons by url, so user can directly get coupon applied when they visit a link
- * Version:           1.2.30
+ * Version:           1.2.31
  * Author:            PI Websolution
  * Author URI:        https://www.piwebsolution.com
  * License:           GPL-2.0+
  * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
  * Text Domain:       add-coupon-by-link-woocommerce
  * Domain Path:       /languages
- * WC tested up to: 10.4.3
+ * WC tested up to: 10.5
  */
 
 // If this file is called directly, abort.
@@ -63,11 +63,11 @@ if(is_plugin_active( 'add-coupon-by-link-for-woocommerce-pro/add-coupon-by-link-
 
 /**
  * Currently plugin version.
- * Start at version 1.2.30 and use SemVer - https://semver.org
+ * Start at version 1.2.31 and use SemVer - https://semver.org
  * Rename this for your plugin and update it as you release new versions.
  */
-define( 'ADD_COUPON_BY_LINK_WOOCOMMERCE_VERSION', '1.2.30' );
-define( 'PISOL_ACLW_VERSION', '1.2.30' );
+define( 'ADD_COUPON_BY_LINK_WOOCOMMERCE_VERSION', '1.2.31' );
+define( 'PISOL_ACLW_VERSION', '1.2.31' );
 define( 'PISOL_ACBLW_PRICE', '$2 / month' );
 define( 'PISOL_ACLW_FOLDER_PATH', plugin_dir_path( __FILE__ ));
 define( 'PISOL_ACBLW_BUY_URL', 'https://www.piwebsolution.com/checkout/?add-to-cart=27270&variation_id=27271&utm_campaign=coupon-by-url&utm_source=website&utm_medium=direct-buy' );
@@ -146,7 +146,7 @@ add_action('plugins_loaded', function () {
  * then kicking off the plugin from this point in the file does
  * not affect the page life cycle.
  *
- * @since    1.2.30
+ * @since    1.2.31
  */
 function run_add_coupon_by_link_woocommerce() {
 

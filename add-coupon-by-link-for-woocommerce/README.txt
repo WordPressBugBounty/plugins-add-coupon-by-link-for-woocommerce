@@ -5,7 +5,7 @@ Tags: coupons, url coupons, discount rules, qrcode, woocommerce coupon
 Requires at least: 3.0.1
 Tested up to: 6.9
 License: GPLv2 or later
-Stable tag: 1.2.30
+Stable tag: 1.2.31
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 Add coupons by URL, restrict coupons by product attribute, a WooCommerce coupon plugin
